@@ -1,0 +1,6 @@
+@Dream_Reserve_Back_HostAddress = http://localhost:5208
+
+GET {{Dream_Reserve_Back_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
