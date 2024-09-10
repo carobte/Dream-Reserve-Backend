@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Dream_Reserve_Back.Controllers.V1.Hotel
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/V1/[controller]")]
     public class HotelController : ControllerBase
     {
         private readonly ApplicationDbContext Context;
@@ -20,9 +20,9 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         }
 
         [HttpGet]
-        public IActionResult GetHotels()
+        public async Task<IActionResult> GetHotels()
         {
-            var hotel = Context.Hotels
+            var hotels = await Context.Hotels
             .Select(hotel => new HotelDTO
             {
                 Id = hotel.Id,
@@ -33,13 +33,13 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 Email = hotel.Email,
                 Description = hotel.Description,
             }
-            ).ToList();
-            
-            if (hotel == null)
+            ).ToListAsync();
+
+            if (hotels == null)
             {
                 return NotFound();
             }
-            return Ok(hotel);
+            return Ok(hotels);
         }
     }
 }
