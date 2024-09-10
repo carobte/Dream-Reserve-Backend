@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Dream_Reserve_Back;
+namespace Dream_Reserve_Back.Models;
 
 public partial class Hotel
 {
@@ -16,6 +16,8 @@ public partial class Hotel
     public string Phone { get; set; } = null!;
 
     public string Email { get; set; } = null!;
+
+    public string Description { get; set; } = null!;
 
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

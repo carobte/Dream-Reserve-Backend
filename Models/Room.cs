@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Dream_Reserve_Back;
+namespace Dream_Reserve_Back.Models;
 
 public partial class Room
 {
@@ -15,11 +15,11 @@ public partial class Room
 
     public string Status { get; set; } = null!;
 
-    public DateTime CheckIn { get; set; }
-
-    public DateTime CheckOut { get; set; }
-
     public int HotelId { get; set; }
+
+    public string Description { get; set; } = null!;
+
+    public int PeopleCapacity { get; set; }
 
     public virtual Hotel Hotel { get; set; } = null!;
 

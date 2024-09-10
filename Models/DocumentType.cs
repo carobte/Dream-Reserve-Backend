@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Dream_Reserve_Back;
+namespace Dream_Reserve_Back.Models;
 
 public partial class DocumentType
 {
     public int Id { get; set; }
 
-    public string Abreviation { get; set; } = null!;
+    public string Abbreviation { get; set; } = null!;
 
     public string Name { get; set; } = null!;
 

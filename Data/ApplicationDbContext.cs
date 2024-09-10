@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dream_Reserve_Back.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
-namespace Dream_Reserve_Back;
+namespace Dream_Reserve_Back.Data;
 
 public partial class ApplicationDbContext : DbContext
 {
@@ -47,7 +48,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasCharSet("utf8mb4")
                 .UseCollation("utf8mb4_0900_ai_ci");
 
-            entity.HasIndex(e => e.Abreviation, "abreviation_UNIQUE").IsUnique();
+            entity.HasIndex(e => e.Abbreviation, "abreviation_UNIQUE").IsUnique();
 
             entity.HasIndex(e => e.Id, "document_id").IsUnique();
 
@@ -56,9 +57,9 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
-            entity.Property(e => e.Abreviation)
+            entity.Property(e => e.Abbreviation)
                 .HasMaxLength(10)
-                .HasColumnName("abreviation");
+                .HasColumnName("abbreviation");
             entity.Property(e => e.Name)
                 .HasMaxLength(25)
                 .HasColumnName("name");
@@ -83,9 +84,24 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
+            entity.Property(e => e.Destiny)
+                .HasMaxLength(45)
+                .HasColumnName("destiny");
+            entity.Property(e => e.Duration)
+                .HasMaxLength(45)
+                .HasColumnName("duration");
             entity.Property(e => e.Name)
                 .HasMaxLength(45)
                 .HasColumnName("name");
+            entity.Property(e => e.Origin)
+                .HasMaxLength(45)
+                .HasColumnName("origin");
+            entity.Property(e => e.Price)
+                .HasPrecision(10)
+                .HasColumnName("price");
+            entity.Property(e => e.Seat)
+                .HasMaxLength(5)
+                .HasColumnName("seat");
         });
 
         modelBuilder.Entity<Food>(entity =>
@@ -97,14 +113,19 @@ public partial class ApplicationDbContext : DbContext
                 .HasCharSet("utf8mb4")
                 .UseCollation("utf8mb4_0900_ai_ci");
 
+            entity.HasIndex(e => e.Cuantity, "cuantity_UNIQUE").IsUnique();
+
             entity.HasIndex(e => e.Id, "food_id").IsUnique();
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
             entity.Property(e => e.Cuantity)
-                .HasColumnType("int(11)")
+                .HasMaxLength(25)
                 .HasColumnName("cuantity");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
             entity.Property(e => e.Price)
                 .HasPrecision(10)
                 .HasColumnName("price");
@@ -137,14 +158,17 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Address)
                 .HasMaxLength(45)
                 .HasColumnName("address");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
             entity.Property(e => e.Email)
                 .HasMaxLength(45)
                 .HasColumnName("email");
             entity.Property(e => e.Name)
-                .HasMaxLength(45)
+                .HasMaxLength(35)
                 .HasColumnName("name");
             entity.Property(e => e.Nit)
-                .HasColumnType("int(11)")
+                .HasColumnType("int(15)")
                 .HasColumnName("nit");
             entity.Property(e => e.Phone)
                 .HasMaxLength(45)
@@ -160,6 +184,10 @@ public partial class ApplicationDbContext : DbContext
                 .HasCharSet("utf8mb4")
                 .UseCollation("utf8mb4_0900_ai_ci");
 
+            entity.HasIndex(e => e.DocumentNumber, "document_number_UNIQUE").IsUnique();
+
+            entity.HasIndex(e => e.Email, "email_UNIQUE").IsUnique();
+
             entity.HasIndex(e => e.DocumentTypeId, "fk_person_document_type1_idx");
 
             entity.HasIndex(e => e.Id, "id").IsUnique();
@@ -174,7 +202,7 @@ public partial class ApplicationDbContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("document_type_id");
             entity.Property(e => e.Email)
-                .HasMaxLength(255)
+                .HasMaxLength(50)
                 .HasColumnName("email");
             entity.Property(e => e.LastName)
                 .HasMaxLength(25)
@@ -216,18 +244,30 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
+            entity.Property(e => e.CheckIn)
+                .HasColumnType("datetime")
+                .HasColumnName("check_in");
+            entity.Property(e => e.CheckOut)
+                .HasColumnType("datetime")
+                .HasColumnName("check_out");
             entity.Property(e => e.FlightId)
                 .HasColumnType("int(11)")
                 .HasColumnName("flight_id");
             entity.Property(e => e.FoodId)
                 .HasColumnType("int(11)")
                 .HasColumnName("food_id");
+            entity.Property(e => e.PeopleCuantity)
+                .HasColumnType("int(3)")
+                .HasColumnName("people_cuantity");
             entity.Property(e => e.PersonId)
                 .HasColumnType("int(11)")
                 .HasColumnName("person_id");
             entity.Property(e => e.RoomId)
                 .HasColumnType("int(11)")
                 .HasColumnName("room_id");
+            entity.Property(e => e.Total)
+                .HasPrecision(10)
+                .HasColumnName("total");
             entity.Property(e => e.TourId)
                 .HasColumnType("int(11)")
                 .HasColumnName("tour_id");
@@ -274,15 +314,15 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
-            entity.Property(e => e.CheckIn)
-                .HasColumnType("datetime")
-                .HasColumnName("check_in");
-            entity.Property(e => e.CheckOut)
-                .HasColumnType("datetime")
-                .HasColumnName("check_out");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
             entity.Property(e => e.HotelId)
                 .HasColumnType("int(11)")
                 .HasColumnName("hotel_id");
+            entity.Property(e => e.PeopleCapacity)
+                .HasColumnType("int(3)")
+                .HasColumnName("people_capacity");
             entity.Property(e => e.Price)
                 .HasPrecision(10)
                 .HasColumnName("price");
@@ -321,6 +361,9 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Category)
                 .HasMaxLength(45)
                 .HasColumnName("category");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .HasColumnName("name");
