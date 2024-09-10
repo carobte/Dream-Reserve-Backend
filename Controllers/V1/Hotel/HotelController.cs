@@ -121,8 +121,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         }
 
         //DELETE method
-        //no funcinal
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotel([FromRoute] int id)
         {
             if (!ModelState.IsValid)
