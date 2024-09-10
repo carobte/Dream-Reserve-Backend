@@ -68,5 +68,28 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             }
             return Ok(hotel);
         }
+
+        //metodo post
+        //no usar de momento
+        [HttpPost]	
+        public async Task<IActionResult> PostHotel([FromBody] HotelDTO hotelDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var hotel = new Models.Hotel
+            {
+                Name = hotelDTO.Name,
+                Nit = hotelDTO.Nit,
+                Address = hotelDTO.Address,
+                Phone = hotelDTO.Phone,
+                Email = hotelDTO.Email,
+                Description = hotelDTO.Description
+            };
+            Context.Hotels.Add(hotel);
+            await Context.SaveChangesAsync();
+            return Ok(hotel);
+        }
     }
 }
