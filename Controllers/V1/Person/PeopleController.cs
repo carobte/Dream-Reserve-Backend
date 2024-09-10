@@ -20,9 +20,9 @@ namespace Dream_Reserve_Back.Controllers.V1.People
         }
 
         [HttpGet]
-        public IActionResult GetPeople()
+        public async Task<IActionResult> GetPeople()
         {
-            var people = Context.People
+            var people = await Context.People
             .Include(person => person.DocumentType)
             .Select(person => new PersonDTO
             {
@@ -34,7 +34,7 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 Email = person.Email,
                 Password = person.Password
             }
-            ).ToList();
+            ).ToListAsync();
 
             if (people == null || people.Count == 0)
             {
@@ -68,6 +68,9 @@ namespace Dream_Reserve_Back.Controllers.V1.People
             }
             return Ok(person);
         }
+
+        // [HttpPost]
+
 
     }
 }
