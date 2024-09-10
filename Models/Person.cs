@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Dream_Reserve_Back;
+namespace Dream_Reserve_Back.Models;
 
 public partial class Person
 {
     public int Id { get; set; }
 
-    public string? Name { get; set; }
+    public string Name { get; set; } = null!;
 
-    public string? LastName { get; set; }
+    public string LastName { get; set; } = null!;
 
-    public string? DocumentNumber { get; set; }
+    public string DocumentNumber { get; set; } = null!;
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
-    public string? Password { get; set; }
+    public string Password { get; set; } = null!;
 
     public int DocumentTypeId { get; set; }
 

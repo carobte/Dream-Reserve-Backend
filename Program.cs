@@ -1,5 +1,6 @@
 using DotNetEnv;
 using Dream_Reserve_Back;
+using Dream_Reserve_Back.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

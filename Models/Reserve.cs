@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Dream_Reserve_Back;
+namespace Dream_Reserve_Back.Models;
 
 public partial class Reserve
 {
@@ -16,6 +16,14 @@ public partial class Reserve
     public int FlightId { get; set; }
 
     public int TourId { get; set; }
+
+    public DateTime CheckIn { get; set; }
+
+    public DateTime CheckOut { get; set; }
+
+    public int PeopleCuantity { get; set; }
+
+    public decimal Total { get; set; }
 
     public virtual Flight Flight { get; set; } = null!;
 
