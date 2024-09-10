@@ -19,7 +19,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             Context = context;
         }
         
-        //get general
+        //GET general
 
         [HttpGet]
         public async Task<IActionResult> GetHotels()
@@ -43,7 +43,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             }
             return Ok(hotels);
         }
-        //metodo get por id
+        //metodo GET por id
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetHotel([FromRoute]int id)
@@ -69,7 +69,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             return Ok(hotel);
         }
 
-        //metodo post
+        //metodo POST
         //no usar de momento
         [HttpPost]	
         public async Task<IActionResult> PostHotel([FromBody] HotelDTO hotelDTO)
@@ -91,5 +91,36 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             await Context.SaveChangesAsync();
             return Ok(hotel);
         }
+        //metodo PUT
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutHotel([FromRoute] int id, [FromBody] HotelDTO hotelDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (id != hotelDTO.Id)
+            {
+                return BadRequest();
+            }
+            var hotel = new Models.Hotel
+            {
+                Id = hotelDTO.Id,
+                Name = hotelDTO.Name,
+                Nit = hotelDTO.Nit,
+                Address = hotelDTO.Address,
+                Phone = hotelDTO.Phone,
+                Email = hotelDTO.Email,
+                Description = hotelDTO.Description
+            };
+
+            Context.Entry(hotel).State = EntityState.Modified;
+            await Context.SaveChangesAsync();
+            return Ok(hotel);
+        }
+
+        
+    
     }
 }
