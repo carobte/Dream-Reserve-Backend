@@ -1,32 +1,45 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Dream_Reserve_Back.Data;
+using Dream_Reserve_Back.DTO.Hotel;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
-namespace Dream_Reserve_Back.Controllers.V1
+namespace Dream_Reserve_Back.Controllers.V1.Hotel
 {
-    [Route("[controller]")]
-    public class Hotel : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class HotelController : ControllerBase
     {
-        private readonly ILogger<Hotel> _logger;
-
-        public Hotel(ILogger<Hotel> logger)
+        private readonly ApplicationDbContext Context;
+        public HotelController(ApplicationDbContext context)
         {
-            _logger = logger;
+            Context = context;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult GetHotels()
         {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View("Error!");
+            var hotel = Context.Hotels
+            .Select(hotel => new HotelDTO
+            {
+                Id = hotel.Id,
+                Name = hotel.Name,
+                Nit = hotel.Nit,
+                Address = hotel.Address,
+                Phone = hotel.Phone,
+                Email = hotel.Email,
+                Description = hotel.Description,
+            }
+            ).ToList();
+            
+            if (hotel == null)
+            {
+                return NotFound();
+            }
+            return Ok(hotel);
         }
     }
 }
