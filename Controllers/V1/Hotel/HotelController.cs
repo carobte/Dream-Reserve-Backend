@@ -120,7 +120,24 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             return Ok(hotel);
         }
 
-        
+        //DELETE method
+        //no funcinal
+        [HttpDelete]
+        public async Task<IActionResult> DeleteHotel([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var hotel = await Context.Hotels.FindAsync(id);
+            if (hotel == null)
+            {
+                return NotFound();
+            }
+            Context.Hotels.Remove(hotel);
+            await Context.SaveChangesAsync();
+            return Ok(hotel);
+        }
     
     }
 }
