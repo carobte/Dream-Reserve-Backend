@@ -18,6 +18,8 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         {
             Context = context;
         }
+        
+        //get general
 
         [HttpGet]
         public async Task<IActionResult> GetHotels()
@@ -40,6 +42,31 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 return NotFound();
             }
             return Ok(hotels);
+        }
+        //metodo get por id
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetHotel([FromRoute]int id)
+        {
+            var hotel = await Context.Hotels
+            .Where( hotel => hotel.Id == id)
+            .Select(hotel => new HotelDTO
+            {
+                Id = hotel.Id,
+                Name = hotel.Name,
+                Nit = hotel.Nit,
+                Address = hotel.Address,
+                Phone = hotel.Phone,
+                Email = hotel.Email,
+                Description = hotel.Description,
+            }
+            ).FirstOrDefaultAsync(hotel => hotel.Id == id);
+
+            if (hotel == null)
+            {
+                return NotFound();
+            }
+            return Ok(hotel);
         }
     }
 }
