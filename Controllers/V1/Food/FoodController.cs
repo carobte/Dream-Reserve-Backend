@@ -39,11 +39,49 @@ namespace Dream_Reserve_Back.Controllers.V1.Food
                 return BadRequest(ModelState);
             }
             var food = await Context.Foods.FindAsync(id);
-            if (food!= null)
+            if (food == null)
             {
                 return NotFound();
             }
+
             Context.Foods.Remove(food);
+            await Context.SaveChangesAsync();
+            return Ok(food);
+        }
+
+        [HttpPost]
+        public async  Task<IActionResult> PostFood ([FromBody] FoodDTO foodDTO){
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            var food = new Models.Food{
+                Cuantity = foodDTO.Cuantity,
+                Price = foodDTO.Price,
+                Description = foodDTO.Description
+            };
+            Context.Foods.Add(food);
+            await Context.SaveChangesAsync();
+            return Ok(food);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutFood([FromRoute] int id, [FromBody] FoodDTO foodDTO){
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (id != foodDTO.Id)
+            {
+                return BadRequest();
+            }
+            var food = new Models.Food
+            {
+                Id = foodDTO.Id,
+                Cuantity = foodDTO.Cuantity,
+                Price = foodDTO.Price,
+                Description = foodDTO.Description
+            };
+            Context.Entry(food).State = EntityState.Modified;
             await Context.SaveChangesAsync();
             return Ok(food);
         }
