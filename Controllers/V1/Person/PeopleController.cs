@@ -72,12 +72,15 @@ namespace Dream_Reserve_Back.Controllers.V1.People
         }
 
         [HttpPost]
-        public async Task<IActionResult> CeatePerson([FromBody] PersonDTO personDTO){
+        public async Task<IActionResult> CreatePerson([FromBody] PersonDTO personDTO)
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var person = new Models.Person{
+
+            var person = new Models.Person
+            {
                 Id = personDTO.Id,
                 Name = personDTO.Name,
                 LastName = personDTO.LastName,
@@ -86,11 +89,57 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 Email = personDTO.Email,
                 Password = personDTO.Password
             };
+
             Context.People.Add(person);
             await Context.SaveChangesAsync();
             return Ok(person);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePerson([FromRoute] int id, [FromBody] PersonDTO personDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != personDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            var person = new Models.Person
+            {
+                Id = personDTO.Id,
+                Name = personDTO.Name,
+                LastName = personDTO.LastName,
+                DocumentTypeId = personDTO.DocumentTypeId,
+                DocumentNumber = personDTO.DocumentNumber,
+                Email = personDTO.Email,
+                Password = personDTO.Password
+            };
+
+            Context.Entry(person).State = EntityState.Modified;
+            await Context.SaveChangesAsync();
+            return Ok(person);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePerson([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var person = await Context.People.FindAsync(id);
+            if (person == null)
+            {
+                return NotFound();
+            }
+            Context.People.Remove(person);
+            await Context.SaveChangesAsync();
+            return Ok(person);
+        }
 
     }
 }
