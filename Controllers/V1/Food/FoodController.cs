@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Dream_Reserve_Back.Controllers.V1.Food
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/V1/[controller]")]
     public class FoodController : ControllerBase
     {
         private readonly ApplicationDbContext Context;
