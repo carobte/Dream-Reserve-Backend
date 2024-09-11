@@ -14,16 +14,17 @@ namespace Dream_Reserve_Back.Controllers.V1
     [Route("api/V1[controller]")]
     public class FlightController : ControllerBase
     {
-       private readonly ApplicationDbContext Context;
-       public FlightController(ApplicationDbContext context)
-       {
-           Context = context;
-       }
+        private readonly ApplicationDbContext Context;
+        public FlightController(ApplicationDbContext context)
+        {
+            Context = context;
+        }
 
-       [HttpGet]
-       public async Task<IActionResult> GetFlight()
-       {
-            var flight = await Context.Flights.Select(flight => new FlightDTO{
+        [HttpGet]
+        public async Task<IActionResult> GetFlight()
+        {
+            var flight = await Context.Flights.Select(flight => new FlightDTO
+            {
                 Id = flight.Id,
                 Name = flight.Name,
                 Date = flight.Date,
@@ -33,11 +34,29 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Origin = flight.Origin,
                 Destiny = flight.Destiny
             }).ToListAsync();
-            if (flight == null){
+            if (flight == null)
+            {
                 return NotFound();
             }
             return Ok(flight);
-       } 
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFlight([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var flight = await Context.Flights.FindAsync(id);
+            if (flight == null)
+            {
+                return NotFound();
+            }
+            Context.Flights.Remove(flight);
+            await Context.SaveChangesAsync();
+            return Ok(flight);
+        }
 
     }
 }
