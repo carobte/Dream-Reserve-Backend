@@ -18,6 +18,8 @@ namespace Dream_Reserve_Back.DTO.Person
         public string? Email { get; set; }
 
         public string? Password { get; set; }
+        public int DocumentTypeId { get; set; }
         public string? DocumentTypeName { get; set; }
+
     }
 }

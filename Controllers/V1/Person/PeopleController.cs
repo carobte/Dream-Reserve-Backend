@@ -29,6 +29,7 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 Id = person.Id,
                 Name = person.Name,
                 LastName = person.LastName,
+                DocumentTypeId = person.DocumentType.Id,
                 DocumentTypeName = person.DocumentType.Name,
                 DocumentNumber = person.DocumentNumber,
                 Email = person.Email,
@@ -45,7 +46,7 @@ namespace Dream_Reserve_Back.Controllers.V1.People
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPerson(int id)
+        public async Task<IActionResult> GetPerson([FromRoute] int id)
         {
             var person = await Context.People
             .Include(person => person.DocumentType)
@@ -55,6 +56,7 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 Id = person.Id,
                 Name = person.Name,
                 LastName = person.LastName,
+                DocumentTypeId = person.DocumentTypeId,
                 DocumentTypeName = person.DocumentType.Name,
                 DocumentNumber = person.DocumentNumber,
                 Email = person.Email,
@@ -69,7 +71,25 @@ namespace Dream_Reserve_Back.Controllers.V1.People
             return Ok(person);
         }
 
-        // [HttpPost]
+        [HttpPost]
+        public async Task<IActionResult> CeatePerson([FromBody] PersonDTO personDTO){
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var person = new Models.Person{
+                Id = personDTO.Id,
+                Name = personDTO.Name,
+                LastName = personDTO.LastName,
+                DocumentTypeId = personDTO.DocumentTypeId,
+                DocumentNumber = personDTO.DocumentNumber,
+                Email = personDTO.Email,
+                Password = personDTO.Password
+            };
+            Context.People.Add(person);
+            await Context.SaveChangesAsync();
+            return Ok(person);
+        }
 
 
     }
