@@ -31,5 +31,22 @@ namespace Dream_Reserve_Back.Controllers.V1.Food
             }
             return Ok(foods);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFood([FromRoute] int id){
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var food = await Context.Foods.FindAsync(id);
+            if (food!= null)
+            {
+                return NotFound();
+            }
+            Context.Foods.Remove(food);
+            await Context.SaveChangesAsync();
+            return Ok(food);
+        }
+
     }
 }
