@@ -20,7 +20,6 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         }
         
         //GET general
-
         [HttpGet]
         public async Task<IActionResult> GetHotels()
         {
@@ -43,8 +42,8 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             }
             return Ok(hotels);
         }
-        //metodo GET por id
 
+        //metodo GET por id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetHotel([FromRoute]int id)
         {
@@ -70,7 +69,6 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         }
 
         //metodo POST
-        //no usar de momento
         [HttpPost]	
         public async Task<IActionResult> PostHotel([FromBody] HotelDTO hotelDTO)
         {
@@ -91,8 +89,8 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             await Context.SaveChangesAsync();
             return Ok(hotel);
         }
-        //metodo PUT
 
+        //metodo PUT
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHotel([FromRoute] int id, [FromBody] HotelDTO hotelDTO)
         {
@@ -121,7 +119,6 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         }
 
         //DELETE method
-        //no funcinal
         [HttpDelete]
         public async Task<IActionResult> DeleteHotel([FromRoute] int id)
         {
