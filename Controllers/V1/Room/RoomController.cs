@@ -20,26 +20,28 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
         }
 
         [HttpGet]
-        public IActionResult GetRoom()
+        public async Task<IActionResult> GetRoom()
         {
-            var room = Context.Rooms
-            .Select(room => new RoomDTO
-            {
-                Id = room.Id,
-                Type = room.Type,
-                RoomNumber = room.RoomNumber,
-                Price = room.Price,
-                Status = room.Status,
-                HotelId = room.HotelId,
-                Description = room.Description,
-                PeopleCapacity = room.PeopleCapacity
-            }
-            ).ToList();
-            if (room.Count == 0)
+            var rooms = await Context.Rooms
+                .Select(room => new RoomDTO
+                {
+                    Id = room.Id,
+                    Type = room.Type,
+                    RoomNumber = room.RoomNumber,
+                    Price = room.Price,
+                    Status = room.Status,
+                    HotelId = room.HotelId,
+                    Description = room.Description,
+                    PeopleCapacity = room.PeopleCapacity
+                })
+                .ToListAsync();
+
+            if (!rooms.Any())
             {
                 return NotFound();
             }
-            return Ok(room);
+
+            return Ok(rooms);
         }
 
         [HttpGet("{id}")]
@@ -68,17 +70,19 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateRoom(int id, [FromBody] RoomDTO roomDto)
+        public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDTO roomDto)
         {
             if (roomDto == null)
             {
                 return BadRequest("Invalid data.");
             }
-            var existingRoom = Context.Rooms.Find(id);
+            var existingRoom = await Context.Rooms.FindAsync(id);
+
             if (existingRoom == null)
             {
                 return NotFound("Room not found.");
             }
+
             existingRoom.Type = roomDto.Type;
             existingRoom.RoomNumber = roomDto.RoomNumber;
             existingRoom.Price = roomDto.Price;
@@ -88,10 +92,11 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
             existingRoom.PeopleCapacity = roomDto.PeopleCapacity;
             Context.Rooms.Update(existingRoom);
 
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
 
             return Ok(existingRoom);
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom([FromRoute] int id)

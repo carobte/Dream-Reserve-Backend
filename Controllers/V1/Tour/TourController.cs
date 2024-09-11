@@ -21,9 +21,9 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
         }
 
         [HttpGet]
-        public IActionResult GetTour()
+        public async Task<IActionResult> GetTour()
         {
-            var tours = Context.Tours
+            var tours = await Context.Tours
                 .Select(tour => new TourDTO
                 {
                     Id = tour.Id,
@@ -32,8 +32,8 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
                     Category = tour.Category,
                     Description = tour.Description
                 })
-                .ToList();
-            if (tours.Count == 0)
+                .ToListAsync();
+            if (!tours.Any())
             {
                 return NotFound();
             }
@@ -144,8 +144,6 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
             await Context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetTour), new { id = tour.Id }, tour);
         }
-
-
 
     }
 }
