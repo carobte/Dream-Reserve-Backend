@@ -17,7 +17,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Food
         public FoodController(ApplicationDbContext context){
             Context = context;
         }
-        [HttpGet]
+        [HttpGet] //get general
         public async Task<IActionResult> GetFoods(){
             var foods = await Context.Foods.Select(food => new FoodDTO{
                 Id = food.Id,
@@ -31,6 +31,27 @@ namespace Dream_Reserve_Back.Controllers.V1.Food
             }
             return Ok(foods);
         }
+        [HttpGet("{id}")] //get for id
+        public async Task<IActionResult> GetFood([FromRoute]int id)
+        {
+            var food = await Context.Foods
+            .Where( food => food.Id == id)
+            .Select(food => new FoodDTO
+            {
+                Id = food.Id,
+                Cuantity = food.Cuantity,
+                Price = food.Price,
+                Description = food.Description
+            }
+            ).FirstOrDefaultAsync(food => food.Id == id);
+
+            if (food == null)
+            {
+                return NotFound();
+            }
+            return Ok(food);
+        }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFood([FromRoute] int id){
