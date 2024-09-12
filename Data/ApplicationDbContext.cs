@@ -33,6 +33,7 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Tour> Tours { get; set; }
 
+    public virtual DbSet<Review> Reviews { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -371,6 +372,47 @@ public partial class ApplicationDbContext : DbContext
                 .HasPrecision(10)
                 .HasColumnName("price");
         });
+
+        modelBuilder.Entity<Review>(entity =>
+         {
+             entity.HasKey(r => r.Id);
+             entity.Property(r => r.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("id");
+
+             entity
+                 .ToTable("review")
+                 .HasCharSet("utf8mb4")
+                 .UseCollation("utf8mb4_0900_ai_ci");
+
+             entity.Property(r => r.Title)
+                   .IsRequired()
+                   .HasMaxLength(100)
+                   .HasColumnName("title");
+
+             entity.Property(r => r.Message)
+                   .IsRequired()
+                   .HasMaxLength(255)
+                   .HasColumnName("message");
+
+             entity.Property(r => r.Rating)
+                    .IsRequired()
+                    .HasColumnName("rating");
+
+             entity.Property(r => r.CreatedAt)
+                   .IsRequired()
+                   .HasColumnName("createdAt");
+
+            entity.Property(e => e.PersonId)
+                .HasColumnType("int(11)")
+                .HasColumnName("person_id");
+
+                
+            entity.HasOne(d => d.Person).WithMany(p => p.Reviews)
+                .HasForeignKey(d => d.PersonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_review_person1");
+         });
 
         OnModelCreatingPartial(modelBuilder);
     }
