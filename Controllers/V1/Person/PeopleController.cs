@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Person;
+using Dream_Reserve_Back.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -89,6 +91,11 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 Email = personDTO.Email,
                 Password = personDTO.Password
             };
+
+            var passwordHasher = new PasswordHasher<Person>();
+
+            // Hash the password and assign it to the user's Password property
+            person.Password = passwordHasher.HashPassword(person, personDTO.Password);
 
             Context.People.Add(person);
             await Context.SaveChangesAsync();
