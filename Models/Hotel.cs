@@ -19,5 +19,9 @@ public partial class Hotel
 
     public string Description { get; set; } = null!;
 
+    public string UrlImages {get;set;} = null!; 
+    public string City {get;set;} = null!; 
+
+    public int Rating { get; set; }
     public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
 }
