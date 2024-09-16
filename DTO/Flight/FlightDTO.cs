@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dream_Reserve_Back.DTO.FlightType;
 
 namespace Dream_Reserve_Back.DTO.Flight
 {
@@ -16,6 +17,11 @@ namespace Dream_Reserve_Back.DTO.Flight
         public string? Seat { get; set; }
         public string? Origin { get; set; }
         public string? Destiny { get; set; }
+        public int FlightTypeId { get; set; }
+        public string FlightTypeName { get; set; } = null;
+        public decimal FlightTypePrice { get; set; }
+        public string FlightTypeDescription { get; set; } = null;
+
 
     }
 }
