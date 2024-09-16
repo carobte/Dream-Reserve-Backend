@@ -31,7 +31,8 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Duration = flight.Duration,
                 Seat = flight.Seat,
                 Origin = flight.Origin,
-                Destiny = flight.Destiny
+                Destiny = flight.Destiny,
+                FlightTypeId = flight.FlightTypeId
             }).ToListAsync();
             return Ok(flights);
         }
@@ -53,7 +54,8 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Duration = flight.Duration,
                 Seat = flight.Seat,
                 Origin = flight.Origin,
-                Destiny = flight.Destiny
+                Destiny = flight.Destiny,
+                FlightTypeId = flight.FlightTypeId
             }
             ).FirstOrDefaultAsync();
             if (flights == null)
@@ -77,7 +79,9 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Duration = flightDTO.Duration,
                 Seat = flightDTO.Seat,
                 Origin = flightDTO.Origin,
-                Destiny = flightDTO.Destiny
+                Destiny = flightDTO.Destiny,
+                FlightTypeId = flightDTO.FlightTypeId
+
             };
             Context.Flights.Add(flight);
             await Context.SaveChangesAsync();
@@ -103,7 +107,8 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Duration = flightDTO.Duration,
                 Seat = flightDTO.Seat,
                 Origin = flightDTO.Origin,
-                Destiny = flightDTO.Destiny
+                Destiny = flightDTO.Destiny,
+                FlightTypeId = flightDTO.FlightTypeId
             };
 
             Context.Entry(flight).State = EntityState.Modified;

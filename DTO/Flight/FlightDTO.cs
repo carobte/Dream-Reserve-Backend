@@ -16,6 +16,8 @@ namespace Dream_Reserve_Back.DTO.Flight
         public string? Seat { get; set; }
         public string? Origin { get; set; }
         public string? Destiny { get; set; }
+        public int FlightTypeId { get; set; }
+
 
     }
 }
