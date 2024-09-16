@@ -19,6 +19,12 @@ namespace Dream_Reserve_Back.Controllers.V1.People
             Context = context;
         }
 
+        /// <summary>
+        /// Get all people
+        /// </summary>
+        /// <remarks>
+        /// This endpoint returns all the people in the database
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetPeople()
         {
@@ -33,7 +39,8 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeName = person.DocumentType.Name,
                 DocumentNumber = person.DocumentNumber,
                 Email = person.Email,
-                Password = person.Password
+                Password = person.Password,
+                UrlAvatar = person.UrlAvatar
             }
             ).ToListAsync();
 
@@ -44,6 +51,13 @@ namespace Dream_Reserve_Back.Controllers.V1.People
 
             return Ok(people);
         }
+
+        /// <summary>
+        /// Get one person by Id
+        /// </summary>
+        /// <remarks>
+        /// This endpoint returns the information for one specific person in the database by Id.
+        /// </remarks>
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPerson([FromRoute] int id)
@@ -60,7 +74,9 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeName = person.DocumentType.Name,
                 DocumentNumber = person.DocumentNumber,
                 Email = person.Email,
-                Password = person.Password
+                Password = person.Password,
+                UrlAvatar = person.UrlAvatar
+
             })
             .FirstOrDefaultAsync();
 
@@ -71,6 +87,12 @@ namespace Dream_Reserve_Back.Controllers.V1.People
             return Ok(person);
         }
 
+        /// <summary>
+        /// Create Person
+        /// </summary>
+        /// <remarks>
+        /// This endpoint creates a person in the database.
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> CreatePerson([FromBody] PersonDTO personDTO)
         {
@@ -87,7 +109,9 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeId = personDTO.DocumentTypeId,
                 DocumentNumber = personDTO.DocumentNumber,
                 Email = personDTO.Email,
-                Password = personDTO.Password
+                Password = personDTO.Password,
+                UrlAvatar = personDTO.UrlAvatar
+
             };
 
             Context.People.Add(person);
@@ -95,6 +119,12 @@ namespace Dream_Reserve_Back.Controllers.V1.People
             return Ok(person);
         }
 
+        /// <summary>
+        /// Edit Person by Id
+        /// </summary>
+        /// <remarks>
+        /// This endpoint Edits a person in the database by Id.
+        /// </remarks>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePerson([FromRoute] int id, [FromBody] PersonDTO personDTO)
         {
@@ -116,14 +146,21 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeId = personDTO.DocumentTypeId,
                 DocumentNumber = personDTO.DocumentNumber,
                 Email = personDTO.Email,
-                Password = personDTO.Password
+                Password = personDTO.Password,
+                UrlAvatar = personDTO.UrlAvatar
+
             };
 
             Context.Entry(person).State = EntityState.Modified;
             await Context.SaveChangesAsync();
             return Ok(person);
         }
-
+        /// <summary>
+        /// Delete Person by Id
+        /// </summary>
+        /// <remarks>
+        /// This endpoint Deletes a person in the database by Id.
+        /// </remarks>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePerson([FromRoute] int id)
         {

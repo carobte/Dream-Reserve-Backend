@@ -1,7 +1,9 @@
+using System.Reflection;
 using DotNetEnv;
 using Dream_Reserve_Back;
 using Dream_Reserve_Back.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,22 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add Swagger services and configure it to include XML comments
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "My API",
+        Version = "v1",
+        Description = "API for user management"
+    });
+    // Get the XML comments file path
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    // Include the XML comments from the generated file
+    c.IncludeXmlComments(xmlPath);
+});
 
 //CORS CONFIG
 builder.Services.AddCors(options=>
