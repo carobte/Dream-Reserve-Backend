@@ -19,10 +19,16 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
             Context = context;
         }
 
+        /// <summary>
+        /// Get all rooms
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can get all rooms
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetRoom()
         {
-            var rooms = await Context.Rooms
+            var rooms = await Context.Rooms.Include(room=>room.Hotel)
                 .Select(room => new RoomDTO
                 {
                     Id = room.Id,
@@ -31,8 +37,10 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
                     Price = room.Price,
                     Status = room.Status,
                     HotelId = room.HotelId,
+                    HotelName= room.Hotel.Name,
                     Description = room.Description,
-                    PeopleCapacity = room.PeopleCapacity
+                    PeopleCapacity = room.PeopleCapacity,
+                    UrlImages = room.UrlImages
                 })
                 .ToListAsync();
 
@@ -44,10 +52,16 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
             return Ok(rooms);
         }
 
+        /// <summary>
+        /// Get room by ID
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can get room by ID
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRoomById(int id)
         {
-            var room = await Context.Rooms
+            var room = await Context.Rooms.Include(room=>room.Hotel)
             .Where(room => room.Id == id)
             .Select(room => new RoomDTO
             {
@@ -57,8 +71,10 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
                 Price = room.Price,
                 Status = room.Status,
                 HotelId = room.HotelId,
+                HotelName=room.Hotel.Name,
                 Description = room.Description,
-                PeopleCapacity = room.PeopleCapacity
+                PeopleCapacity = room.PeopleCapacity,
+                UrlImages = room.UrlImages
             })
             .FirstOrDefaultAsync();
 
@@ -69,6 +85,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
             return Ok(room);
         }
 
+        /// <summary>
+        /// Edit room by ID
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can edit room by ID
+        /// </remarks>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDTO roomDto)
         {
@@ -90,6 +112,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
             existingRoom.HotelId = roomDto.HotelId;
             existingRoom.Description = roomDto.Description;
             existingRoom.PeopleCapacity = roomDto.PeopleCapacity;
+            existingRoom.UrlImages = roomDto.UrlImages;
             Context.Rooms.Update(existingRoom);
 
             await Context.SaveChangesAsync();
@@ -97,7 +120,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
             return Ok(existingRoom);
         }
 
-
+        /// <summary>
+        /// Delete a room
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can delete a room by ID
+        /// </remarks>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom([FromRoute] int id)
         {
@@ -115,6 +143,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
             return Ok(room);
         }
 
+        /// <summary>
+        /// Add a room
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can add a new room
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> PostRoom([FromBody] RoomDTO roomDto)
         {
@@ -130,12 +164,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
                 Status = roomDto.Status,
                 HotelId = roomDto.HotelId,
                 Description = roomDto.Description,
-                PeopleCapacity = roomDto.PeopleCapacity
+                PeopleCapacity = roomDto.PeopleCapacity,
+                UrlImages = roomDto.UrlImages
             };
             Context.Rooms.Add(room);
             await Context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetRoomById), new { id = room.Id }, room);
         }
-
     }
 }

@@ -20,6 +20,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
             Context = context;
         }
 
+        /// <summary>
+        /// Get all tours
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can get all tours
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetTour()
         {
@@ -30,7 +36,8 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
                     Name = tour.Name,
                     Price = tour.Price,
                     Category = tour.Category,
-                    Description = tour.Description
+                    Description = tour.Description,
+                    UrlImages = tour.UrlImages
                 })
                 .ToListAsync();
             if (!tours.Any())
@@ -40,6 +47,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
             return Ok(tours);
         }
 
+        /// <summary>
+        /// Get tour by ID
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can get tour by ID
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTour(int id)
         {
@@ -51,7 +64,8 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
                     Name = tour.Name,
                     Price = tour.Price,
                     Category = tour.Category,
-                    Description = tour.Description
+                    Description = tour.Description,
+                    UrlImages = tour.UrlImages
                 })
                 .FirstOrDefaultAsync();
 
@@ -63,6 +77,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
             return Ok(tour);
         }
 
+        /// <summary>
+        /// Edit tour by ID
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can edit tour by ID
+        /// </remarks>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTour([FromRoute] int id, [FromBody] TourDTO tourDTO)
         {
@@ -72,7 +92,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
             }
             if (id != tourDTO.Id)
             {
-                return BadRequest("El ID proporcionado en la URL no coincide con el ID en el cuerpo.");
+                return BadRequest("El ID proporcionado no coincide con el ID de busqueda.");
             }
             var tour = await Context.Tours.FindAsync(id);
             if (tour == null)
@@ -83,6 +103,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
             tour.Price = tourDTO.Price;
             tour.Category = tourDTO.Category;
             tour.Description = tourDTO.Description;
+            tour.UrlImages = tourDTO.UrlImages;
 
             Context.Entry(tour).State = EntityState.Modified;
 
@@ -109,6 +130,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
             return Context.Tours.Any(t => t.Id == id);
         }
 
+        /// <summary>
+        /// Delete a tour
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can delete a tour by ID
+        /// </remarks>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTour([FromRoute] int id)
         {
@@ -126,6 +153,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
             return Ok(tour);
         }
 
+        /// <summary>
+        /// Add a tour
+        /// </summary>
+        /// <remarks>
+        /// With this method, you can add a new Tour
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> PostTour([FromBody] TourDTO tourDTO)
         {
@@ -138,12 +171,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
                 Name = tourDTO.Name,
                 Price = tourDTO.Price,
                 Category = tourDTO.Category,
-                Description = tourDTO.Description
+                Description = tourDTO.Description,
+                UrlImages = tourDTO.UrlImages
             };
             Context.Tours.Add(tour);
             await Context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetTour), new { id = tour.Id }, tour);
         }
-
     }
 }

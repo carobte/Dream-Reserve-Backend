@@ -11,4 +11,5 @@ public class TourDTO
     public decimal Price { get; set; }
     public string Category { get; set; } = null!;
     public string Description { get; set; } = null!;
+    public string UrlImages { get; set; } = null!;
 }
