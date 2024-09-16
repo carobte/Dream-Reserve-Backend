@@ -34,6 +34,9 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Tour> Tours { get; set; }
 
     public virtual DbSet<Review> Reviews { get; set; }
+
+    public virtual DbSet<FlightType> FlightTypes { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -82,6 +85,9 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
+             entity.Property(e => e.FlightTypeId)
+                .HasColumnType("int(11)")
+                .HasColumnName("flight_type_id");  
             entity.Property(e => e.Date)
                 .HasColumnType("datetime")
                 .HasColumnName("date");
@@ -97,12 +103,14 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Origin)
                 .HasMaxLength(45)
                 .HasColumnName("origin");
-            entity.Property(e => e.Price)
-                .HasPrecision(10)
-                .HasColumnName("price");
             entity.Property(e => e.Seat)
                 .HasMaxLength(5)
                 .HasColumnName("seat");
+
+             entity.HasOne(d => d.FlightType).WithMany(p => p.Flights)
+                .HasForeignKey(d => d.FlightTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_flight_flight_type1");  
         });
 
         modelBuilder.Entity<Food>(entity =>
@@ -183,6 +191,37 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.City)
                 .HasMaxLength(255)
                 .HasColumnName("city");
+        });
+
+        modelBuilder.Entity<FlightType>(entity => 
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity
+                .ToTable("flight_types")
+                .HasCharSet("utf8mb4")
+                .UseCollation("utf8mb4_0900_ai_ci");
+
+            entity.HasIndex(e => e.Id, "flight_type_id").IsUnique();
+
+            entity.HasIndex(e => e.Name, "flight_type_name_UNIQUE").IsUnique();
+
+            entity.HasIndex(e => e.Price, "flight_type_price_UNIQUE").IsUnique();
+
+            entity.HasIndex(e => e.Description, "description_UNIQUE").IsUnique();
+           
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(100)
+                .HasColumnName("description");
+            entity.Property(e => e.Name)
+                .HasMaxLength(25)
+                .HasColumnName("name");
+            entity.Property(e => e.Price)
+                .HasPrecision(10)
+                .HasColumnName("price");
         });
 
         modelBuilder.Entity<Person>(entity =>

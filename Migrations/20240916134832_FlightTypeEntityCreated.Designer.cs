@@ -4,6 +4,7 @@ using Dream_Reserve_Back.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dream_Reserve_Back.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240916134832_FlightTypeEntityCreated")]
+    partial class FlightTypeEntityCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,10 +91,6 @@ namespace Dream_Reserve_Back.Migrations
                         .HasColumnType("varchar(45)")
                         .HasColumnName("duration");
 
-                    b.Property<int>("FlightTypeId")
-                        .HasColumnType("int(11)")
-                        .HasColumnName("flight_type_id");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(45)
@@ -112,8 +111,6 @@ namespace Dream_Reserve_Back.Migrations
 
                     b.HasKey("Id")
                         .HasName("PRIMARY");
-
-                    b.HasIndex("FlightTypeId");
 
                     b.HasIndex(new[] { "Id" }, "flight_id")
                         .IsUnique();
@@ -596,17 +593,6 @@ namespace Dream_Reserve_Back.Migrations
                     MySqlEntityTypeBuilderExtensions.UseCollation(b, "utf8mb4_0900_ai_ci");
                 });
 
-            modelBuilder.Entity("Dream_Reserve_Back.Models.Flight", b =>
-                {
-                    b.HasOne("Dream_Reserve_Back.Models.FlightType", "FlightType")
-                        .WithMany("Flights")
-                        .HasForeignKey("FlightTypeId")
-                        .IsRequired()
-                        .HasConstraintName("fk_flight_flight_type1");
-
-                    b.Navigation("FlightType");
-                });
-
             modelBuilder.Entity("Dream_Reserve_Back.Models.Person", b =>
                 {
                     b.HasOne("Dream_Reserve_Back.Models.DocumentType", "DocumentType")
@@ -691,11 +677,6 @@ namespace Dream_Reserve_Back.Migrations
             modelBuilder.Entity("Dream_Reserve_Back.Models.Flight", b =>
                 {
                     b.Navigation("Reserves");
-                });
-
-            modelBuilder.Entity("Dream_Reserve_Back.Models.FlightType", b =>
-                {
-                    b.Navigation("Flights");
                 });
 
             modelBuilder.Entity("Dream_Reserve_Back.Models.Food", b =>
