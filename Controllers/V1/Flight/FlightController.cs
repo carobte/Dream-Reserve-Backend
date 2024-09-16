@@ -29,7 +29,6 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Name = flight.Name,
                 Date = flight.Date,
                 Duration = flight.Duration,
-                Price = flight.Price,
                 Seat = flight.Seat,
                 Origin = flight.Origin,
                 Destiny = flight.Destiny
@@ -52,7 +51,6 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Name = flight.Name,
                 Date = flight.Date,
                 Duration = flight.Duration,
-                Price = flight.Price,
                 Seat = flight.Seat,
                 Origin = flight.Origin,
                 Destiny = flight.Destiny
@@ -77,7 +75,6 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Name = flightDTO.Name,
                 Date = flightDTO.Date,
                 Duration = flightDTO.Duration,
-                Price = flightDTO.Price,
                 Seat = flightDTO.Seat,
                 Origin = flightDTO.Origin,
                 Destiny = flightDTO.Destiny
@@ -104,7 +101,6 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Name = flightDTO.Name,
                 Date = flightDTO.Date,
                 Duration = flightDTO.Duration,
-                Price = flightDTO.Price,
                 Seat = flightDTO.Seat,
                 Origin = flightDTO.Origin,
                 Destiny = flightDTO.Destiny

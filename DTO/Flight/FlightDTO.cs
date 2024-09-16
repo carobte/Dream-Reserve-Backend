@@ -12,15 +12,9 @@ namespace Dream_Reserve_Back.DTO.Flight
         public string? Name { get; set; }
 
         public DateTime Date { get; set; }
-
         public string? Duration { get; set; }
-
-        public decimal Price { get; set; }
-
         public string? Seat { get; set; }
-
         public string? Origin { get; set; }
-
         public string? Destiny { get; set; }
 
     }

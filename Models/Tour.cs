@@ -14,6 +14,7 @@ public partial class Tour
     public string Category { get; set; } = null!;
 
     public string Description { get; set; } = null!;
+    public string UrlImages {get;set;} = null!; 
 
     public virtual ICollection<Reserve> Reserves { get; set; } = new List<Reserve>();
 }
