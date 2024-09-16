@@ -20,8 +20,8 @@ public partial class Room
     public string Description { get; set; } = null!;
 
     public int PeopleCapacity { get; set; }
-    public string UrlImages {get;set;} = null!; 
 
+    public string UrlImages { get; set; } = null!;
 
     public virtual Hotel Hotel { get; set; } = null!;
 
