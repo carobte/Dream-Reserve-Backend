@@ -14,5 +14,8 @@ namespace Dream_Reserve_Back.DTO.Hotel
         public string? Phone { get; set; }
         public string? Email { get; set; }
         public string? Description { get; set; }
+        public string? UrlImages {get; set;}
+        public string? City {get; set;}
+        public int Rating {get; set;}
     }
 }

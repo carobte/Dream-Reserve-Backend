@@ -19,7 +19,13 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             Context = context;
         }
         
-        //GET general
+
+        /// <summary>
+        /// Get in general
+        /// </summary>
+        /// <remarks>
+        /// this endpoint returns in general the hotel in the db
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetHotels()
         {
@@ -33,6 +39,9 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 Phone = hotel.Phone,
                 Email = hotel.Email,
                 Description = hotel.Description,
+                UrlImages = hotel.UrlImages,
+                City = hotel.City,
+                Rating = hotel.Rating
             }
             ).ToListAsync();
 
@@ -43,7 +52,13 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
             return Ok(hotels);
         }
 
-        //metodo GET por id
+
+        /// <summary>
+        /// Get for Id
+        /// </summary>
+        /// <remarks>
+        /// this endpoint returns the search of hotel by id.
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetHotel([FromRoute]int id)
         {
@@ -58,6 +73,9 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 Phone = hotel.Phone,
                 Email = hotel.Email,
                 Description = hotel.Description,
+                UrlImages = hotel.UrlImages,
+                City = hotel.City,
+                Rating = hotel.Rating
             }
             ).FirstOrDefaultAsync(hotel => hotel.Id == id);
 
@@ -69,6 +87,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         }
 
         //metodo POST
+        /// <summary>
+        /// Create a Hotel
+        /// </summary>
+        /// <remarks>
+        /// This endpoint create hotel in the database 
+        /// </remarks>
         [HttpPost]	
         public async Task<IActionResult> PostHotel([FromBody] HotelDTO hotelDTO)
         {
@@ -83,7 +107,10 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 Address = hotelDTO.Address,
                 Phone = hotelDTO.Phone,
                 Email = hotelDTO.Email,
-                Description = hotelDTO.Description
+                Description = hotelDTO.Description,
+                UrlImages = hotelDTO.UrlImages,
+                City = hotelDTO.City,
+                Rating = hotelDTO.Rating
             };
             Context.Hotels.Add(hotel);
             await Context.SaveChangesAsync();
@@ -91,6 +118,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         }
 
         //metodo PUT
+        /// <summary>
+        /// edit a Hotel
+        /// </summary>
+        /// <remarks>
+        /// This endpoint edit hotel in the database by id
+        /// </remarks>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHotel([FromRoute] int id, [FromBody] HotelDTO hotelDTO)
         {
@@ -110,7 +143,10 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 Address = hotelDTO.Address,
                 Phone = hotelDTO.Phone,
                 Email = hotelDTO.Email,
-                Description = hotelDTO.Description
+                Description = hotelDTO.Description,
+                UrlImages = hotelDTO.UrlImages,
+                City = hotelDTO.City,
+                Rating = hotelDTO.Rating
             };
 
             Context.Entry(hotel).State = EntityState.Modified;
@@ -119,6 +155,12 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         }
 
         //DELETE method
+        /// <summary>
+        /// delete a Hotel
+        /// </summary>
+        /// <remarks>
+        /// This endpoint delete hotel in the database  by id
+        /// </remarks>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotel([FromRoute] int id)
         {
