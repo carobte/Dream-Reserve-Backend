@@ -20,6 +20,13 @@ namespace Dream_Reserve_Back.Controllers.V1
             Context = context;
         }
 
+
+        /// <summary>
+        /// Show flight information
+        /// </summary>
+        /// <remarks>
+        /// This endpoint shows all the flight and the flightType information available
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetFlight()
         {
@@ -32,11 +39,21 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Seat = flight.Seat,
                 Origin = flight.Origin,
                 Destiny = flight.Destiny,
-                FlightTypeId = flight.FlightTypeId
+                FlightTypeId = flight.FlightTypeId,
+                FlightTypeName = flight.FlightType.Name,
+                FlightTypePrice = flight.FlightType.Price,
+                FlightTypeDescription = flight.FlightType.Description
             }).ToListAsync();
             return Ok(flights);
         }
 
+
+        /// <summary>
+        /// Show flight information by Id
+        /// </summary>
+        /// <remarks>
+        /// This endpoint shows all the flight and the flightType information available searching by id
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFlightById([FromRoute] int id)
         {
@@ -55,7 +72,10 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Seat = flight.Seat,
                 Origin = flight.Origin,
                 Destiny = flight.Destiny,
-                FlightTypeId = flight.FlightTypeId
+                FlightTypeId = flight.FlightTypeId,
+                FlightTypeName = flight.FlightType.Name,
+                FlightTypePrice = flight.FlightType.Price,
+                FlightTypeDescription = flight.FlightType.Description
             }
             ).FirstOrDefaultAsync();
             if (flights == null)
@@ -65,6 +85,13 @@ namespace Dream_Reserve_Back.Controllers.V1
             return Ok(flights);
         }
 
+
+        /// <summary>
+        /// Create flight 
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows to create flight information 
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> CreateFlight([FromBody] FlightDTO flightDTO)
         {
@@ -88,6 +115,12 @@ namespace Dream_Reserve_Back.Controllers.V1
             return Ok(flight);
         }
 
+        /// <summary>
+        /// Update flight 
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows to update or change the flight information 
+        /// </remarks>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFlight([FromRoute] int id, [FromBody] FlightDTO flightDTO)
         {
@@ -116,7 +149,12 @@ namespace Dream_Reserve_Back.Controllers.V1
             return Ok(flight);
         }
 
-
+        /// <summary>
+        /// Delete flight 
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows to delete the flight information searching by id
+        /// </remarks>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFlight([FromRoute] int id)
         {
