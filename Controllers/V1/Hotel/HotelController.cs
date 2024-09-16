@@ -33,6 +33,9 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 Phone = hotel.Phone,
                 Email = hotel.Email,
                 Description = hotel.Description,
+                UrlImages = hotel.UrlImages,
+                City = hotel.City,
+                Rating = hotel.Rating
             }
             ).ToListAsync();
 
@@ -58,6 +61,9 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 Phone = hotel.Phone,
                 Email = hotel.Email,
                 Description = hotel.Description,
+                UrlImages = hotel.UrlImages,
+                City = hotel.City,
+                Rating = hotel.Rating
             }
             ).FirstOrDefaultAsync(hotel => hotel.Id == id);
 
@@ -83,7 +89,10 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 Address = hotelDTO.Address,
                 Phone = hotelDTO.Phone,
                 Email = hotelDTO.Email,
-                Description = hotelDTO.Description
+                Description = hotelDTO.Description,
+                UrlImages = hotelDTO.UrlImages,
+                City = hotelDTO.City,
+                Rating = hotelDTO.Rating
             };
             Context.Hotels.Add(hotel);
             await Context.SaveChangesAsync();
@@ -110,7 +119,10 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
                 Address = hotelDTO.Address,
                 Phone = hotelDTO.Phone,
                 Email = hotelDTO.Email,
-                Description = hotelDTO.Description
+                Description = hotelDTO.Description,
+                UrlImages = hotelDTO.UrlImages,
+                City = hotelDTO.City,
+                Rating = hotelDTO.Rating
             };
 
             Context.Entry(hotel).State = EntityState.Modified;
