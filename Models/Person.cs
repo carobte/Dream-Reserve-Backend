@@ -17,12 +17,11 @@ public partial class Person
 
     public string Password { get; set; } = null!;
 
+    public string UrlAvatar {get;set;} = null!; 
+    
     public int DocumentTypeId { get; set; }
 
     public virtual DocumentType DocumentType { get; set; } = null!;
-    public string UrlAvatar {get;set;} = null!; 
-
-
     public virtual ICollection<Reserve> Reserves { get; set; } = new List<Reserve>();
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
 }
