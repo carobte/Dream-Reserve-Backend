@@ -19,9 +19,14 @@ namespace Dream_Reserve_Back.DTO.Room
 
         public int HotelId { get; set; }
 
+        public string HotelName { get; set; }
+
         public string Description { get; set; } = null!;
 
         public int PeopleCapacity { get; set; }
-        
+
+        public string UrlImages { get; set; } = null!;
+
+
     }
 }

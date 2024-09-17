@@ -13,13 +13,13 @@ public partial class Flight
 
     public string Duration { get; set; } = null!;
 
-    public decimal Price { get; set; }
-
     public string Seat { get; set; } = null!;
 
     public string Origin { get; set; } = null!;
 
     public string Destiny { get; set; } = null!;
-
+    
+    public int FlightTypeId { get; set; }
+    public virtual FlightType FlightType { get; set; } = null!;
     public virtual ICollection<Reserve> Reserves { get; set; } = new List<Reserve>();
 }
