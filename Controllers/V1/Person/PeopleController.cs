@@ -63,7 +63,6 @@ namespace Dream_Reserve_Back.Controllers.V1.People
         public async Task<IActionResult> GetPerson([FromRoute] int id)
         {
             var person = await Context.People
-            .Include(person => person.DocumentType)
             .Where(person => person.Id == id)
             .Select(person => new PersonDTO
             {

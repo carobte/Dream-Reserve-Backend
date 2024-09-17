@@ -34,10 +34,11 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "My API",
+        Title = "My API for Dream Reserve",
         Version = "v1",
-        Description = "API for user management"
+        Description = "API for reserves management"
     });
+
     // Get the XML comments file path
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -46,7 +47,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 //CORS CONFIG
-builder.Services.AddCors(options=>
+builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
     {
