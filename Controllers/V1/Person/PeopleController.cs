@@ -119,7 +119,6 @@ namespace Dream_Reserve_Back.Controllers.V1.People
 
             // Hash the password and assign it to the user's Password property
             person.Password = passwordHasher.HashPassword(person, personDTO.Password);
-
             Context.People.Add(person);
             await Context.SaveChangesAsync();
             return Ok(person);
