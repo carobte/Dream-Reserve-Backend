@@ -54,6 +54,40 @@ namespace Dream_Reserve_Back.Controllers.V1.Reserves
         }
 
         /// <summary>
+        /// Get all reserves for an specific person
+        /// </summary>
+        /// <remarks>
+        /// This endpoint returns all the reserves in the database for an specific person by the id.
+        /// </remarks>
+
+        [HttpGet("/person/{idPerson}")]
+        public async Task<IActionResult> GetReservesPerson(int idPerson)
+        {
+            var person = await Context.People.FindAsync(idPerson);
+            var reserves = await Context.Reserves.Where(r => r.PersonId == idPerson)
+              .Select(reserve => new ReserveDTO
+              {
+                  Id = reserve.Id,
+                  PersonId = reserve.PersonId,
+                  RoomId = reserve.RoomId,
+                  FoodId = reserve.FoodId,
+                  FlightId = reserve.FlightId,
+                  TourId = reserve.TourId,
+                  CheckIn = reserve.CheckIn,
+                  CheckOut = reserve.CheckOut,
+                  PeopleCuantity = reserve.PeopleCuantity,
+                  Total = reserve.Total
+              }).ToListAsync();
+
+            if (reserves == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(reserves);
+        }
+
+        /// <summary>
         /// Get one reserve by Id
         /// </summary>
         /// <remarks>
