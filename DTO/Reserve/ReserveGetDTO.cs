@@ -11,7 +11,7 @@ namespace Dream_Reserve_Back.DTO.Reserve
         public int PersonId { get; set; }
         public string PersonName {get;set;}
         public string PersonLastName {get;set;}
-        public string RoomName { get; set; }
+        public int RoomName { get; set; }
         public string RoomType { get; set; }   
         public decimal RoomPrice { get; set; }
         public string HotelName {get;set;}
