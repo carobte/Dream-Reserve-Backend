@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text;
 using DotNetEnv;
 using Dream_Reserve_Back;
+using Dream_Reserve_Back.Config;
 using Dream_Reserve_Back.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,9 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Add services to the container.
+
+builder.Services.AddSingleton<Utilities>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

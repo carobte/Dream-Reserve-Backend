@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dream_Reserve_Back.Config;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Person;
 using Dream_Reserve_Back.Models;
@@ -16,9 +17,11 @@ namespace Dream_Reserve_Back.Controllers.V1.People
     public class PeopleController : ControllerBase
     {
         private readonly ApplicationDbContext Context;
-        public PeopleController(ApplicationDbContext context)
+        private readonly Utilities Utilities;
+        public PeopleController(ApplicationDbContext context, Utilities utilities)
         {
             Context = context;
+            Utilities = utilities;
         }
 
         /// <summary>
@@ -101,6 +104,10 @@ namespace Dream_Reserve_Back.Controllers.V1.People
             {
                 return BadRequest(ModelState);
             }
+            if (Context.People.Any(u => u.Email == personDTO.Email))
+            {
+                return BadRequest("Email already exists");
+            }
 
             var person = new Models.Person
             {
@@ -110,15 +117,15 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeId = personDTO.DocumentTypeId,
                 DocumentNumber = personDTO.DocumentNumber,
                 Email = personDTO.Email,
-                Password = personDTO.Password,
+                Password = Utilities.EncryptSHA256(personDTO.Password),
                 UrlAvatar = personDTO.UrlAvatar
 
             };
 
-            var passwordHasher = new PasswordHasher<Person>();
+            // var passwordHasher = new PasswordHasher<Person>();
 
-            // Hash the password and assign it to the user's Password property
-            person.Password = passwordHasher.HashPassword(person, personDTO.Password);
+            // // Hash the password and assign it to the user's Password property
+            // person.Password = passwordHasher.HashPassword(person, personDTO.Password);
             Context.People.Add(person);
             await Context.SaveChangesAsync();
             return Ok(person);

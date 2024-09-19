@@ -26,7 +26,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Review
         /// This endpoint returns all the reviews in the database
         /// </remarks>
         [HttpGet]
-        public async Task<ActionResult> GetReviews()
+        public async Task<IActionResult> GetReviews()
         {
             var reviews = await Context.Reviews
                 .Include(r => r.Person)

@@ -9,13 +9,13 @@ public partial class Reserve
 
     public int PersonId { get; set; }
 
-    public int RoomId { get; set; }
+    public int? RoomId { get; set; }
 
-    public int FoodId { get; set; }
+    public int? FoodId { get; set; }
 
-    public int FlightId { get; set; }
+    public int? FlightId { get; set; }
 
-    public int TourId { get; set; }
+    public int? TourId { get; set; }
 
     public DateTime CheckIn { get; set; }
 
