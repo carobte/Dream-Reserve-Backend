@@ -43,7 +43,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Reserves
                     PersonId = reserve.PersonId,
                     PersonName = reserve.Person.Name,
                     PersonLastName = reserve.Person.LastName,
-                    
+
                     RoomName = reserve.Room != null ? reserve.Room.RoomNumber : 0,
                     RoomType = reserve.Room != null ? reserve.Room.Type : string.Empty,
                     RoomPrice = reserve.Room != null ? reserve.Room.Price : 0,
@@ -82,20 +82,40 @@ namespace Dream_Reserve_Back.Controllers.V1.Reserves
         public async Task<IActionResult> GetReservesPerson(int idPerson)
         {
             var person = await Context.People.FindAsync(idPerson);
+
             var reserves = await Context.Reserves.Where(r => r.PersonId == idPerson)
-              .Select(reserve => new ReserveDTO
-              {
-                  Id = reserve.Id,
-                  PersonId = reserve.PersonId,
-                  RoomId = reserve.RoomId,
-                  FoodId = reserve.FoodId,
-                  FlightId = reserve.FlightId,
-                  TourId = reserve.TourId,
-                  CheckIn = reserve.CheckIn,
-                  CheckOut = reserve.CheckOut,
-                  PeopleCuantity = reserve.PeopleCuantity,
-                  Total = reserve.Total
-              }).ToListAsync();
+
+                .Include(reserve => reserve.Person)
+                .Include(reserve => reserve.Room)
+                .Include(reserve => reserve.Food)
+                .Include(reserve => reserve.Flight)
+                .Include(reserve => reserve.Tour)
+
+                .Select(reserve => new ReserveGetDTO
+                {
+                    Id = reserve.Id,
+                    PersonId = reserve.PersonId,
+                    PersonName = reserve.Person.Name,
+                    PersonLastName = reserve.Person.LastName,
+
+                    RoomName = reserve.Room != null ? reserve.Room.RoomNumber : 0,
+                    RoomType = reserve.Room != null ? reserve.Room.Type : string.Empty,
+                    RoomPrice = reserve.Room != null ? reserve.Room.Price : 0,
+                    HotelName = reserve.Room != null && reserve.Room.Hotel != null ? reserve.Room.Hotel.Name : string.Empty,
+                    FoodDescription = reserve.Food != null ? reserve.Food.Description : string.Empty,
+                    FoodPrice = reserve.Food != null ? reserve.Food.Price : 0,
+                    FlightName = reserve.Flight != null ? reserve.Flight.Name : string.Empty,
+                    FlightDuration = reserve.Flight != null ? reserve.Flight.Duration : string.Empty,
+                    FlightPrice = reserve.Flight != null ? reserve.Flight.Price : 0,
+                    TourName = reserve.Tour != null ? reserve.Tour.Name : string.Empty,
+                    TourPrice = reserve.Tour != null ? reserve.Tour.Price : 0,
+
+                    CheckIn = reserve.CheckIn,
+                    CheckOut = reserve.CheckOut,
+                    PeopleCuantity = reserve.PeopleCuantity,
+                    Total = reserve.Total
+                })
+                .ToListAsync();
 
             if (reserves == null)
             {
@@ -116,20 +136,37 @@ namespace Dream_Reserve_Back.Controllers.V1.Reserves
         {
             var reserve = await Context.Reserves
                 .Where(reserve => reserve.Id == id)
-                .Select(reserve => new ReserveDTO
+                .Include(reserve => reserve.Person)
+                .Include(reserve => reserve.Room)
+                .Include(reserve => reserve.Food)
+                .Include(reserve => reserve.Flight)
+                .Include(reserve => reserve.Tour)
+
+                .Select(reserve => new ReserveGetDTO
                 {
                     Id = reserve.Id,
                     PersonId = reserve.PersonId,
-                    RoomId = reserve.RoomId,
-                    FoodId = reserve.FoodId,
-                    FlightId = reserve.FlightId,
-                    TourId = reserve.TourId,
+                    PersonName = reserve.Person.Name,
+                    PersonLastName = reserve.Person.LastName,
+
+                    RoomName = reserve.Room != null ? reserve.Room.RoomNumber : 0,
+                    RoomType = reserve.Room != null ? reserve.Room.Type : string.Empty,
+                    RoomPrice = reserve.Room != null ? reserve.Room.Price : 0,
+                    HotelName = reserve.Room != null && reserve.Room.Hotel != null ? reserve.Room.Hotel.Name : string.Empty,
+                    FoodDescription = reserve.Food != null ? reserve.Food.Description : string.Empty,
+                    FoodPrice = reserve.Food != null ? reserve.Food.Price : 0,
+                    FlightName = reserve.Flight != null ? reserve.Flight.Name : string.Empty,
+                    FlightDuration = reserve.Flight != null ? reserve.Flight.Duration : string.Empty,
+                    FlightPrice = reserve.Flight != null ? reserve.Flight.Price : 0,
+                    TourName = reserve.Tour != null ? reserve.Tour.Name : string.Empty,
+                    TourPrice = reserve.Tour != null ? reserve.Tour.Price : 0,
+
                     CheckIn = reserve.CheckIn,
                     CheckOut = reserve.CheckOut,
                     PeopleCuantity = reserve.PeopleCuantity,
                     Total = reserve.Total
                 })
-                .FirstOrDefaultAsync();
+                .ToListAsync();
 
             if (reserve == null)
             {
