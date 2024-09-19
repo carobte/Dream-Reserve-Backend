@@ -1,6 +1,7 @@
 using System.Reflection;
 using DotNetEnv;
 using Dream_Reserve_Back;
+using Dream_Reserve_Back.Config;
 using Dream_Reserve_Back.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -23,6 +24,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(conectionDB, ServerVersion.Parse("8.0.15-mysql")));
 
 // Add services to the container.
+
+builder.Services.AddSingleton<Utilities>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
