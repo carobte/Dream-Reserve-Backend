@@ -4,6 +4,7 @@ using Dream_Reserve_Back.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dream_Reserve_Back.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240919122920_PriceInFlight")]
+    partial class PriceInFlight
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,7 +107,7 @@ namespace Dream_Reserve_Back.Migrations
                         .HasColumnType("varchar(45)")
                         .HasColumnName("origin");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasPrecision(10)
                         .HasColumnType("decimal(10)")
                         .HasColumnName("price");
@@ -391,11 +394,11 @@ namespace Dream_Reserve_Back.Migrations
                         .HasColumnType("datetime")
                         .HasColumnName("check_out");
 
-                    b.Property<int?>("FlightId")
+                    b.Property<int>("FlightId")
                         .HasColumnType("int(11)")
                         .HasColumnName("flight_id");
 
-                    b.Property<int?>("FoodId")
+                    b.Property<int>("FoodId")
                         .HasColumnType("int(11)")
                         .HasColumnName("food_id");
 
@@ -407,7 +410,7 @@ namespace Dream_Reserve_Back.Migrations
                         .HasColumnType("int(11)")
                         .HasColumnName("person_id");
 
-                    b.Property<int?>("RoomId")
+                    b.Property<int>("RoomId")
                         .HasColumnType("int(11)")
                         .HasColumnName("room_id");
 
@@ -416,7 +419,7 @@ namespace Dream_Reserve_Back.Migrations
                         .HasColumnType("decimal(10)")
                         .HasColumnName("total");
 
-                    b.Property<int?>("TourId")
+                    b.Property<int>("TourId")
                         .HasColumnType("int(11)")
                         .HasColumnName("tour_id");
 
@@ -628,11 +631,13 @@ namespace Dream_Reserve_Back.Migrations
                     b.HasOne("Dream_Reserve_Back.Models.Flight", "Flight")
                         .WithMany("Reserves")
                         .HasForeignKey("FlightId")
+                        .IsRequired()
                         .HasConstraintName("fk_reserve_flight1");
 
                     b.HasOne("Dream_Reserve_Back.Models.Food", "Food")
                         .WithMany("Reserves")
                         .HasForeignKey("FoodId")
+                        .IsRequired()
                         .HasConstraintName("fk_reserve_food1");
 
                     b.HasOne("Dream_Reserve_Back.Models.Person", "Person")
@@ -644,11 +649,13 @@ namespace Dream_Reserve_Back.Migrations
                     b.HasOne("Dream_Reserve_Back.Models.Room", "Room")
                         .WithMany("Reserves")
                         .HasForeignKey("RoomId")
+                        .IsRequired()
                         .HasConstraintName("fk_reserv_room1");
 
                     b.HasOne("Dream_Reserve_Back.Models.Tour", "Tour")
                         .WithMany("Reserves")
                         .HasForeignKey("TourId")
+                        .IsRequired()
                         .HasConstraintName("fk_reserve_tour1");
 
                     b.Navigation("Flight");
