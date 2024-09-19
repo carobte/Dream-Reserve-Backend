@@ -18,7 +18,8 @@ public partial class Flight
     public string Origin { get; set; } = null!;
 
     public string Destiny { get; set; } = null!;
-    
+
+    public decimal Price { get; set; }
     public int FlightTypeId { get; set; }
     public virtual FlightType FlightType { get; set; } = null!;
     public virtual ICollection<Reserve> Reserves { get; set; } = new List<Reserve>();
