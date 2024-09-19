@@ -106,6 +106,10 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.Seat)
                 .HasMaxLength(5)
                 .HasColumnName("seat");
+            entity.Property(e => e.Price)
+                .HasPrecision(10)
+                .HasColumnName("price")
+                .IsRequired();
 
              entity.HasOne(d => d.FlightType).WithMany(p => p.Flights)
                 .HasForeignKey(d => d.FlightTypeId)
@@ -305,10 +309,12 @@ public partial class ApplicationDbContext : DbContext
                 .HasColumnName("check_out");
             entity.Property(e => e.FlightId)
                 .HasColumnType("int(11)")
-                .HasColumnName("flight_id");
+                .HasColumnName("flight_id")
+                .IsRequired(false);
             entity.Property(e => e.FoodId)
                 .HasColumnType("int(11)")
-                .HasColumnName("food_id");
+                .HasColumnName("food_id")
+                .IsRequired(false);
             entity.Property(e => e.PeopleCuantity)
                 .HasColumnType("int(3)")
                 .HasColumnName("people_cuantity");
@@ -317,13 +323,15 @@ public partial class ApplicationDbContext : DbContext
                 .HasColumnName("person_id");
             entity.Property(e => e.RoomId)
                 .HasColumnType("int(11)")
-                .HasColumnName("room_id");
+                .HasColumnName("room_id")
+                .IsRequired(false);
             entity.Property(e => e.Total)
                 .HasPrecision(10)
                 .HasColumnName("total");
             entity.Property(e => e.TourId)
                 .HasColumnType("int(11)")
-                .HasColumnName("tour_id");
+                .HasColumnName("tour_id")
+                .IsRequired(false);
 
             entity.HasOne(d => d.Flight).WithMany(p => p.Reserves)
                 .HasForeignKey(d => d.FlightId)
