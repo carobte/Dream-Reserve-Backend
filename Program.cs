@@ -27,32 +27,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(conectionDB, ServerVersion.Parse("8.0.15-mysql")));
 
 
-// Retrieving JWT variables from the .env file
-var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
-var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
-var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
-var jwtExpireMinutes = Environment.GetEnvironmentVariable("JWT_EXPIREMINUTES");
-
-// Configure JWT
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtIssuer,
-        ValidAudience = jwtAudience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
-    };
-});
-
 // Add services to the container.
 
 builder.Services.AddSingleton<Utilities>();
