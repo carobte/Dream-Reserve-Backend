@@ -39,6 +39,7 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Seat = flight.Seat,
                 Origin = flight.Origin,
                 Destiny = flight.Destiny,
+                Price = flight.Price,
                 FlightTypeId = flight.FlightTypeId,
                 FlightTypeName = flight.FlightType.Name,
                 FlightTypePrice = flight.FlightType.Price,
@@ -72,6 +73,7 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Seat = flight.Seat,
                 Origin = flight.Origin,
                 Destiny = flight.Destiny,
+                Price = flight.Price,
                 FlightTypeId = flight.FlightTypeId,
                 FlightTypeName = flight.FlightType.Name,
                 FlightTypePrice = flight.FlightType.Price,
@@ -107,6 +109,7 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Seat = flightDTO.Seat,
                 Origin = flightDTO.Origin,
                 Destiny = flightDTO.Destiny,
+                Price = flightDTO.Price,
                 FlightTypeId = flightDTO.FlightTypeId
 
             };
@@ -141,6 +144,7 @@ namespace Dream_Reserve_Back.Controllers.V1
                 Seat = flightDTO.Seat,
                 Origin = flightDTO.Origin,
                 Destiny = flightDTO.Destiny,
+                Price = flightDTO.Price,
                 FlightTypeId = flightDTO.FlightTypeId
             };
 
