@@ -31,8 +31,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddSingleton<Utilities>();
 
-
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -59,7 +59,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
     {
-        builder.AllowAnyOrigin()
+        // Localhost for the development mode, and the url deployed for the frontend project
+        builder.WithOrigins("http://localhost:5173", "https://dream-reserve.vercel.app")
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
@@ -73,11 +74,10 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
+//Use Cors
 app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
