@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Review;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dream_Reserve_Back.Controllers.V1.Review
 {
     [ApiController]
+    [Authorize] //Esto hace que el endpoint o en este caso los endpoints necesiten autorizacion 
     [Route("api/V1/[controller]")]
     public class ReviewController : ControllerBase
     {

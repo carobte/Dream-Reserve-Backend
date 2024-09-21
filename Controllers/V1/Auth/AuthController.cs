@@ -24,26 +24,26 @@ namespace Dream_Reserve_Back.Controllers.V1.Auth
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest request){
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             var user = await _context.People.FirstOrDefaultAsync(person => person.Email == request.Email);
-            if (user == null)
-            {
-                return Unauthorized("Invalid email"); //cambiar mensaje del error
-            }
-
             var passwordValid = user.Password == _utilities.EncryptSHA256(request.Password);
-
-            if (passwordValid == false)
+            if (user == null || passwordValid == false)
             {
-                return Unauthorized("Invalid password"); //cambiar mensaje del error
+                return Unauthorized("Invalid email or password"); //cambiar mensaje del error
             }
 
-            return Ok("login");
+            var token = _utilities.GenerateJwtToken(user);
+            return Ok(new
+            {
+                message = "Please, save this token",
+                jwt = token
+            });
         }
     }
 }
