@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Dream_Reserve_Back.Controllers.V1.Review
 {
     [ApiController]
-    [Authorize] //Esto hace que el endpoint o en este caso los endpoints necesiten autorizacion 
     [Route("api/V1/[controller]")]
     public class ReviewController : ControllerBase
     {
@@ -89,6 +88,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Review
         /// This endpoint creates a review in the database.
         /// </remarks>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateReview([FromBody] ReviewDTO reviewDTO)
         {
             if (!ModelState.IsValid)
@@ -118,6 +118,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Review
         /// This endpoint Edits a review in the database by Id.
         /// </remarks>
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateReview([FromRoute] int id, [FromBody] ReviewDTO reviewDTO)
         {
             if (!ModelState.IsValid)
@@ -152,6 +153,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Review
         /// This endpoint Deletes a review in the database by Id.
         /// </remarks>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteReview([FromRoute] int id)
         {
             if (!ModelState.IsValid)

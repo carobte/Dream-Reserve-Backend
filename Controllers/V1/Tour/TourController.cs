@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Tour;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -84,6 +85,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
         /// With this method, you can edit tour by ID
         /// </remarks>
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutTour([FromRoute] int id, [FromBody] TourDTO tourDTO)
         {
             if (!ModelState.IsValid)
@@ -137,6 +139,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
         /// With this method, you can delete a tour by ID
         /// </remarks>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteTour([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -160,6 +163,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Tour
         /// With this method, you can add a new Tour
         /// </remarks>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostTour([FromBody] TourDTO tourDTO)
         {
             if (!ModelState.IsValid)

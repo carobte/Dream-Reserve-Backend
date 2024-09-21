@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Flight;
 using Dream_Reserve_Back.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -95,6 +96,7 @@ namespace Dream_Reserve_Back.Controllers.V1
         /// This endpoint allows to create flight information 
         /// </remarks>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateFlight([FromBody] FlightDTO flightDTO)
         {
             if (!ModelState.IsValid)
@@ -125,6 +127,7 @@ namespace Dream_Reserve_Back.Controllers.V1
         /// This endpoint allows to update or change the flight information 
         /// </remarks>
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateFlight([FromRoute] int id, [FromBody] FlightDTO flightDTO)
         {
             if (!ModelState.IsValid)
@@ -160,6 +163,7 @@ namespace Dream_Reserve_Back.Controllers.V1
         /// This endpoint allows to delete the flight information searching by id
         /// </remarks>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteFlight([FromRoute] int id)
         {
             if (!ModelState.IsValid)

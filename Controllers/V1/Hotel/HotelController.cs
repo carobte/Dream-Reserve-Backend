@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Hotel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -94,6 +95,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         /// This endpoint create hotel in the database 
         /// </remarks>
         [HttpPost]	
+        [Authorize]
         public async Task<IActionResult> PostHotel([FromBody] HotelDTO hotelDTO)
         {
             if (!ModelState.IsValid)
@@ -125,6 +127,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         /// This endpoint edit hotel in the database by id
         /// </remarks>
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutHotel([FromRoute] int id, [FromBody] HotelDTO hotelDTO)
         {
             if (!ModelState.IsValid)
@@ -162,6 +165,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Hotel
         /// This endpoint delete hotel in the database  by id
         /// </remarks>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteHotel([FromRoute] int id)
         {
             if (!ModelState.IsValid)
