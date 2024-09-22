@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Review;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -87,6 +88,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Review
         /// This endpoint creates a review in the database.
         /// </remarks>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateReview([FromBody] ReviewDTO reviewDTO)
         {
             if (!ModelState.IsValid)
@@ -116,6 +118,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Review
         /// This endpoint Edits a review in the database by Id.
         /// </remarks>
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateReview([FromRoute] int id, [FromBody] ReviewDTO reviewDTO)
         {
             if (!ModelState.IsValid)
@@ -150,6 +153,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Review
         /// This endpoint Deletes a review in the database by Id.
         /// </remarks>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteReview([FromRoute] int id)
         {
             if (!ModelState.IsValid)

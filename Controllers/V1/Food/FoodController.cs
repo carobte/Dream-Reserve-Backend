@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Food;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -78,6 +79,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Food
 
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteFood([FromRoute] int id){
             if (!ModelState.IsValid)
             {
@@ -103,6 +105,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Food
         /// </remarks>
 
         [HttpPost]
+        [Authorize]
         public async  Task<IActionResult> PostFood ([FromBody] FoodDTO foodDTO){
             if(!ModelState.IsValid){
                 return BadRequest(ModelState);
@@ -126,6 +129,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Food
         /// </remarks>
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutFood([FromRoute] int id, [FromBody] FoodDTO foodDTO){
             if (!ModelState.IsValid)
             {

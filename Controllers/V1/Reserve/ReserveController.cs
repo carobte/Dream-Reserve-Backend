@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Reserve;
 using Dream_Reserve_Back.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dream_Reserve_Back.Controllers.V1.Reserves
 {
     [ApiController]
+    [Authorize] //Esto hace que el endpoint o en este caso los endpoints necesiten autorizacion 
     [Route("api/V1/[controller]")]
     public class ReservesController : ControllerBase
     {
