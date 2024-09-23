@@ -16,7 +16,6 @@ namespace Dream_Reserve_Back.Controllers.V1.Auth
     {
         private readonly ApplicationDbContext _context;
         private readonly Utilities _utilities;
-
         public AuthController(ApplicationDbContext context, Utilities utilities)
         {
             _context = context;
@@ -33,16 +32,28 @@ namespace Dream_Reserve_Back.Controllers.V1.Auth
 
             var user = await _context.People.FirstOrDefaultAsync(person => person.Email == request.Email);
             var passwordValid = user.Password == _utilities.EncryptSHA256(request.Password);
+            
             if (user == null || passwordValid == false)
             {
-                return Unauthorized("Invalid email or password"); //cambiar mensaje del error
+                return Unauthorized("Invalid email or password"); 
             }
 
             var token = _utilities.GenerateJwtToken(user);
             return Ok(new
             {
-                message = "Please, save this token",
-                jwt = token
+                message = "User logged in successfully, save this token for future http requests",
+                jwt = token,
+                // Return user info
+                userLogged =  new 
+                {
+                    id = user.Id,
+                    name = user.Name,
+                    lastName = user.LastName,
+                    urlAvatar = user.UrlAvatar,
+                    email = user.Email,
+                    documentTypeId = user.DocumentTypeId,
+                    documentNumber = user.DocumentNumber
+                }
             });
         }
     }
