@@ -31,9 +31,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddSingleton<Utilities>();
 
-// JWT Config
+// JWT Authentication Configuration
 builder.Services.AddAuthentication(config =>
 {
+    // Set the default authentication, challenge, and scheme to JWT Bearer
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,14 +42,18 @@ builder.Services.AddAuthentication(config =>
 {
     config.RequireHttpsMetadata = false;
     config.SaveToken = true;
+
+    // Token validation parameters
     config.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER"),
-        ValidateAudience = true,  //True habilita a lo que tengamos en el .en en JWT_AUDIECE a usar la api, si esta en false, todos pueden acceder a la api
+        ValidateAudience = true,   // Validate the JWT audience (who can use the API)
         ValidAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero,
+
+        // Use the secret key from environment variables to sign and validate the JWT
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY")!))
     };
 });
