@@ -30,21 +30,27 @@ namespace Dream_Reserve_Back.Controllers.V1.Auth
                 return BadRequest(ModelState);
             }
 
+            // Find user by email in the database
             var user = await _context.People.FirstOrDefaultAsync(person => person.Email == request.Email);
+
+            // Validate password by comparing the hashed password with the one stored in the database
             var passwordValid = user.Password == _utilities.EncryptSHA256(request.Password);
-            
+
             if (user == null || passwordValid == false)
             {
-                return Unauthorized("Invalid email or password"); 
+                return Unauthorized("Invalid email or password");
             }
 
+            // Generate JWT token for the authenticated user
             var token = _utilities.GenerateJwtToken(user);
+
+            // Return success response with JWT token and user info
             return Ok(new
             {
                 message = "User logged in successfully, save this token for future http requests",
                 jwt = token,
-                // Return user info
-                userLogged =  new 
+                // Return logged-in user info
+                userLogged = new
                 {
                     id = user.Id,
                     name = user.Name,

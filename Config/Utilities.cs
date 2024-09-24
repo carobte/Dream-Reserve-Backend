@@ -15,6 +15,7 @@ namespace Dream_Reserve_Back.Config
 {
     public class Utilities
     {
+        // Method to encrypt a string using SHA25
         public string EncryptSHA256(string input)
         {
             using (SHA256 sha256Hash = SHA256.Create())
@@ -29,28 +30,33 @@ namespace Dream_Reserve_Back.Config
             }
         }
 
+        // Method to generate a JWT token for a user
         public string GenerateJwtToken(Person user)
         {
+            // Create claims for the user
             var claims = new[]
             {
             new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
             new Claim(ClaimTypes.Email,user.Email),
         };
 
+            // Fetch JWT configuration values from environment variables
             var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
             var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
             var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
             var jwtExpiresIn = Environment.GetEnvironmentVariable("JWT_EXPIREMINUTES");
 
-            // Validar que las variables existen
+            // Validate that the required environment variables exist
             if (string.IsNullOrEmpty(jwtKey) || string.IsNullOrEmpty(jwtIssuer) || string.IsNullOrEmpty(jwtAudience))
             {
                 throw new InvalidOperationException("JWT configuration values are missing.");
             }
 
+            // Create a security key using the JWT key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            // Create the JWT token
             var token = new JwtSecurityToken(
                 issuer: jwtIssuer,
                 audience: jwtAudience,
@@ -59,6 +65,7 @@ namespace Dream_Reserve_Back.Config
                 signingCredentials: credentials
             );
 
+            // Return the generated JWT token as a string
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
