@@ -45,7 +45,6 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeName = person.DocumentType.Name,
                 DocumentNumber = person.DocumentNumber,
                 Email = person.Email,
-                Password = person.Password,
                 UrlAvatar = person.UrlAvatar
             }
             ).ToListAsync();
@@ -79,7 +78,6 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeName = person.DocumentType.Name,
                 DocumentNumber = person.DocumentNumber,
                 Email = person.Email,
-                Password = person.Password,
                 UrlAvatar = person.UrlAvatar
 
             })
@@ -123,10 +121,6 @@ namespace Dream_Reserve_Back.Controllers.V1.People
 
             };
 
-            // var passwordHasher = new PasswordHasher<Person>();
-
-            // // Hash the password and assign it to the user's Password property
-            // person.Password = passwordHasher.HashPassword(person, personDTO.Password);
             Context.People.Add(person);
             await Context.SaveChangesAsync();
             return Ok(person);
@@ -160,7 +154,7 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeId = personDTO.DocumentTypeId,
                 DocumentNumber = personDTO.DocumentNumber,
                 Email = personDTO.Email,
-                Password = personDTO.Password,
+                Password = Utilities.EncryptSHA256(personDTO.Password),
                 UrlAvatar = personDTO.UrlAvatar
 
             };
