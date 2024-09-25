@@ -6,6 +6,7 @@ using Dream_Reserve_Back.Config;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Person;
 using Dream_Reserve_Back.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -44,7 +45,6 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeName = person.DocumentType.Name,
                 DocumentNumber = person.DocumentNumber,
                 Email = person.Email,
-                Password = person.Password,
                 UrlAvatar = person.UrlAvatar
             }
             ).ToListAsync();
@@ -78,7 +78,6 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeName = person.DocumentType.Name,
                 DocumentNumber = person.DocumentNumber,
                 Email = person.Email,
-                Password = person.Password,
                 UrlAvatar = person.UrlAvatar
 
             })
@@ -122,10 +121,6 @@ namespace Dream_Reserve_Back.Controllers.V1.People
 
             };
 
-            // var passwordHasher = new PasswordHasher<Person>();
-
-            // // Hash the password and assign it to the user's Password property
-            // person.Password = passwordHasher.HashPassword(person, personDTO.Password);
             Context.People.Add(person);
             await Context.SaveChangesAsync();
             return Ok(person);
@@ -138,6 +133,7 @@ namespace Dream_Reserve_Back.Controllers.V1.People
         /// This endpoint Edits a person in the database by Id.
         /// </remarks>
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdatePerson([FromRoute] int id, [FromBody] PersonDTO personDTO)
         {
             if (!ModelState.IsValid)
@@ -158,7 +154,7 @@ namespace Dream_Reserve_Back.Controllers.V1.People
                 DocumentTypeId = personDTO.DocumentTypeId,
                 DocumentNumber = personDTO.DocumentNumber,
                 Email = personDTO.Email,
-                Password = personDTO.Password,
+                Password = Utilities.EncryptSHA256(personDTO.Password),
                 UrlAvatar = personDTO.UrlAvatar
 
             };
@@ -174,6 +170,7 @@ namespace Dream_Reserve_Back.Controllers.V1.People
         /// This endpoint Deletes a person in the database by Id.
         /// </remarks>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeletePerson([FromRoute] int id)
         {
             if (!ModelState.IsValid)

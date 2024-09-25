@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dream_Reserve_Back.Data;
 using Dream_Reserve_Back.DTO.Room;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -92,6 +93,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
         /// With this method, you can edit room by ID
         /// </remarks>
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateRoom(int id, [FromBody] RoomDTO roomDto)
         {
             if (roomDto == null)
@@ -127,6 +129,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
         /// With this method, you can delete a room by ID
         /// </remarks>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteRoom([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -150,6 +153,7 @@ namespace Dream_Reserve_Back.Controllers.V1.Room
         /// With this method, you can add a new room
         /// </remarks>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostRoom([FromBody] RoomDTO roomDto)
         {
             if (!ModelState.IsValid)
